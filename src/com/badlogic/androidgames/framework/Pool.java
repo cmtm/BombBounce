@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pool<T> {
+	
     public interface PoolObjectFactory<T> {
         public T createObject();
     }
@@ -21,11 +22,10 @@ public class Pool<T> {
     public T newObject() {
         T object = null;
 
-        if (freeObjects.size() == 0)
+        if (freeObjects.isEmpty())
             object = factory.createObject();
         else
             object = freeObjects.remove(freeObjects.size() - 1);
-
         return object;
     }
 

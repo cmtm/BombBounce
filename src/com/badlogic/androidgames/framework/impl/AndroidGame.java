@@ -11,8 +11,6 @@ import android.os.PowerManager.WakeLock;
 import android.view.Window;
 import android.view.WindowManager;
 
-import chris.bounceGame.PersistentData;
-
 import com.badlogic.androidgames.framework.Audio;
 import com.badlogic.androidgames.framework.FileIO;
 import com.badlogic.androidgames.framework.Game;
@@ -21,7 +19,6 @@ import com.badlogic.androidgames.framework.Input;
 import com.badlogic.androidgames.framework.Screen;
 
 public abstract class AndroidGame extends Activity implements Game {
-    PersistentData persistentData;
     AndroidFastRenderView renderView;
     Graphics graphics;
     Audio audio;
@@ -33,8 +30,6 @@ public abstract class AndroidGame extends Activity implements Game {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        persistentData = new PersistentData(getPreferences(0));
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -42,7 +37,7 @@ public abstract class AndroidGame extends Activity implements Game {
 
         boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         int frameBufferWidth = isLandscape ? 800 : 480;
-        int frameBufferHeight = isLandscape ? 480 : 800;
+        int frameBufferHeight = isLandscape ? 480: 800;
         Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth,
                 frameBufferHeight, Config.RGB_565);
         
@@ -53,7 +48,7 @@ public abstract class AndroidGame extends Activity implements Game {
 
         renderView = new AndroidFastRenderView(this, frameBuffer);
         graphics = new AndroidGraphics(getAssets(), frameBuffer);
-        fileIO = new AndroidFileIO(getAssets());
+        fileIO = new AndroidFileIO(this);
         audio = new AndroidAudio(this);
         input = new AndroidInput(this, renderView, scaleX, scaleY);
         screen = getStartScreen();
@@ -69,8 +64,6 @@ public abstract class AndroidGame extends Activity implements Game {
         wakeLock.acquire();
         screen.resume();
         renderView.resume();
-        //this might not be necessary
-        persistentData.read();
     }
 
     @Override
@@ -78,34 +71,28 @@ public abstract class AndroidGame extends Activity implements Game {
         super.onPause();
         wakeLock.release();
         renderView.pause();
-        screen.pause();        
-        persistentData.write();
+        screen.pause();
 
         if (isFinishing())
             screen.dispose();
     }
 
-    @Override
     public Input getInput() {
         return input;
     }
 
-    @Override
     public FileIO getFileIO() {
         return fileIO;
     }
 
-    @Override
     public Graphics getGraphics() {
         return graphics;
     }
 
-    @Override
     public Audio getAudio() {
         return audio;
     }
 
-    @Override
     public void setScreen(Screen screen) {
         if (screen == null)
             throw new IllegalArgumentException("Screen must not be null");
@@ -116,12 +103,8 @@ public abstract class AndroidGame extends Activity implements Game {
         screen.update(0);
         this.screen = screen;
     }
-    
+
     public Screen getCurrentScreen() {
         return screen;
-    }
-    
-    public PersistentData getPersistentData() {
-    	return persistentData;
     }
 }

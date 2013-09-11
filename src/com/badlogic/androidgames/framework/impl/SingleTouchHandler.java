@@ -19,10 +19,9 @@ public class SingleTouchHandler implements TouchHandler {
     List<TouchEvent> touchEventsBuffer = new ArrayList<TouchEvent>();
     float scaleX;
     float scaleY;
-    
+
     public SingleTouchHandler(View view, float scaleX, float scaleY) {
         PoolObjectFactory<TouchEvent> factory = new PoolObjectFactory<TouchEvent>() {
-            @Override
             public TouchEvent createObject() {
                 return new TouchEvent();
             }            
@@ -33,8 +32,7 @@ public class SingleTouchHandler implements TouchHandler {
         this.scaleX = scaleX;
         this.scaleY = scaleY;
     }
-    
-    @Override
+
     public boolean onTouch(View v, MotionEvent event) {
         synchronized(this) {
             TouchEvent touchEvent = touchEventPool.newObject();
@@ -62,7 +60,6 @@ public class SingleTouchHandler implements TouchHandler {
         }
     }
 
-    @Override
     public boolean isTouchDown(int pointer) {
         synchronized(this) {
             if(pointer == 0)
@@ -72,21 +69,18 @@ public class SingleTouchHandler implements TouchHandler {
         }
     }
 
-    @Override
     public int getTouchX(int pointer) {
         synchronized(this) {
             return touchX;
         }
     }
 
-    @Override
     public int getTouchY(int pointer) {
         synchronized(this) {
             return touchY;
         }
     }
 
-    @Override
     public List<TouchEvent> getTouchEvents() {
         synchronized(this) {     
             int len = touchEvents.size();

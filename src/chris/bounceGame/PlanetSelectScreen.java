@@ -6,14 +6,15 @@ import com.badlogic.androidgames.framework.Pixmap;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics.PixmapFormat;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
-import com.badlogic.androidgames.framework.impl.AndroidGame;
+
+import android.content.SharedPreferences;
 
 public class PlanetSelectScreen extends Screen {
 	
 	//TODO: Catch back-button press and return to main menu
 	
 	private static final int POINT_THRESHOLD = 1;
-	
+	private static final String defaultLevelScores = "0 0 0 0 0 0;0 0 0 0 0 0;0 0 0 0 0 0;0 0 0 0 0 0";
 	private int levelScores[][];
 	
 	private Button moon, earth, jupiter, sun;
@@ -22,7 +23,9 @@ public class PlanetSelectScreen extends Screen {
 	public PlanetSelectScreen(Game game) {
 		super(game);
 
-		levelScores= game.getPersistentData().levelScores;
+		String levelString = game.getFileIO().getPreferences().getString("levelScoresPacked", defaultLevelScores);
+
+		levelScores = unpack(levelString);
 		
 		Graphics g = game.getGraphics();
 		moon       = new Button(27, 227, g.newPixmap("moonButton.png", PixmapFormat.ARGB8888));
@@ -58,6 +61,29 @@ public class PlanetSelectScreen extends Screen {
 		if(levelScores[2][levelScores[2].length - 1] >= POINT_THRESHOLD)
 			sun.draw(g);
 
+	}
+
+	private int[][] unpack(String packed) {
+		int [][] result;
+		
+		String[][] splitString = new String[packed.split(";").length][];
+		for(int i = 0; i < packed.split(";").length; i++) {
+			splitString[i] = packed.split(";")[i].split(" ");
+		}
+		
+		result = new int[splitString.length][];
+		for(int worldIndex = 0; worldIndex < splitString.length; worldIndex++) {			
+			result[worldIndex] = new int[splitString[worldIndex].length];
+			
+			for(int levelIndex = 0; levelIndex < splitString[worldIndex].length; levelIndex++) {
+				result[worldIndex][levelIndex] = Integer.parseInt(splitString[worldIndex][levelIndex]);
+			}
+		}
+		return result;
+	}
+	
+	public int[][] testUnpack(String packed) {
+		return unpack(packed);
 	}
 
 	@Override

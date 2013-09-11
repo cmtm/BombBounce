@@ -15,10 +15,9 @@ public class KeyboardHandler implements OnKeyListener {
     Pool<KeyEvent> keyEventPool;
     List<KeyEvent> keyEventsBuffer = new ArrayList<KeyEvent>();    
     List<KeyEvent> keyEvents = new ArrayList<KeyEvent>();
-
+    
     public KeyboardHandler(View view) {
         PoolObjectFactory<KeyEvent> factory = new PoolObjectFactory<KeyEvent>() {
-            @Override
             public KeyEvent createObject() {
                 return new KeyEvent();
             }
@@ -29,7 +28,6 @@ public class KeyboardHandler implements OnKeyListener {
         view.requestFocus();
     }
 
-    @Override
     public boolean onKey(View v, int keyCode, android.view.KeyEvent event) {
         if (event.getAction() == android.view.KeyEvent.ACTION_MULTIPLE)
             return false;
@@ -62,8 +60,9 @@ public class KeyboardHandler implements OnKeyListener {
     public List<KeyEvent> getKeyEvents() {
         synchronized (this) {
             int len = keyEvents.size();
-            for (int i = 0; i < len; i++)
+            for (int i = 0; i < len; i++) {
                 keyEventPool.free(keyEvents.get(i));
+            }
             keyEvents.clear();
             keyEvents.addAll(keyEventsBuffer);
             keyEventsBuffer.clear();

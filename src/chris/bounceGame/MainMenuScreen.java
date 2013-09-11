@@ -9,6 +9,7 @@ import com.badlogic.androidgames.framework.Graphics.PixmapFormat;
 //remove below if I get rid of sketchy game cast
 import com.badlogic.androidgames.framework.impl.AndroidGame;
 
+import android.content.SharedPreferences;
 
 public class MainMenuScreen extends Screen {
 	//button placement constants
@@ -69,7 +70,7 @@ public class MainMenuScreen extends Screen {
 		exit.draw(g);
 		speaker.draw(g);
 		
-		if(game.getPersistentData().isVolumeOn)
+		if(game.getFileIO().getPreferences().getBoolean("isVolumeOn", false))
 			g.drawPixmap(greenRing, SPEAKER_X, SPEAKER_Y);
 		else
 			g.drawPixmap(redRing, SPEAKER_X, SPEAKER_Y);
@@ -105,8 +106,10 @@ public class MainMenuScreen extends Screen {
 			game.setScreen(new CinematicsScreen(game));
 		else if (exit.isInsideButton(x, y))
 			((AndroidGame) game).finish();
-		else if (speaker.isInsideButton(x, y))
-			game.getPersistentData().isVolumeOn = !game.getPersistentData().isVolumeOn;
+		else if (speaker.isInsideButton(x, y)) {
+			SharedPreferences prefs = game.getFileIO().getPreferences();
+			prefs.edit().putBoolean("isVolumeOn", !prefs.getBoolean("isVolumeOn", false)).commit();
+		}
 		
 	}
 
