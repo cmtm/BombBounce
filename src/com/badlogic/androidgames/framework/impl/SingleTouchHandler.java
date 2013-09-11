@@ -19,8 +19,9 @@ public class SingleTouchHandler implements TouchHandler {
     List<TouchEvent> touchEventsBuffer = new ArrayList<TouchEvent>();
     float scaleX;
     float scaleY;
-
-    public SingleTouchHandler(View view, float scaleX, float scaleY) {
+    int frameBufferHeight;
+    
+    public SingleTouchHandler(View view, float scaleX, float scaleY, int frameBufferHeight) {
         PoolObjectFactory<TouchEvent> factory = new PoolObjectFactory<TouchEvent>() {
             public TouchEvent createObject() {
                 return new TouchEvent();
@@ -31,6 +32,7 @@ public class SingleTouchHandler implements TouchHandler {
 
         this.scaleX = scaleX;
         this.scaleY = scaleY;
+        this.frameBufferHeight = frameBufferHeight;
     }
 
     public boolean onTouch(View v, MotionEvent event) {
@@ -53,7 +55,7 @@ public class SingleTouchHandler implements TouchHandler {
             }
             
             touchEvent.x = touchX = (int)(event.getX() * scaleX);
-            touchEvent.y = touchY = (int)(event.getY() * scaleY);
+            touchEvent.y = touchY = frameBufferHeight - (int)(event.getY() * scaleY);
             touchEventsBuffer.add(touchEvent);                        
             
             return true;

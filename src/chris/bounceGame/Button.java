@@ -21,7 +21,7 @@ public class Button {
 	//I can just return the boolean expression but made it like this for clarity.
 	public boolean isInsideButton(int x, int y) {
 		if(    topLeftX < x    &&    x < (topLeftX + pic.getWidth())    &&
-				topLeftY < y    &&    y <    (topLeftY + pic.getHeight())    )
+				topLeftY > y    &&    y >    (topLeftY - pic.getHeight())    )
 			return true;
 		else
 			return false;

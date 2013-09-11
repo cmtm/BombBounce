@@ -1,5 +1,7 @@
 package com.badlogic.androidgames.framework;
 
+// Important note: the graphics follow a normal Cartesian coordinate system.
+// this isn't the normal way graphics are done.
 public interface Graphics {
     public static enum PixmapFormat {
         ARGB8888, ARGB4444, RGB565

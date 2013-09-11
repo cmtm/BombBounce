@@ -28,10 +28,10 @@ public class PlanetSelectScreen extends Screen {
 		levelScores = unpack(levelString);
 		
 		Graphics g = game.getGraphics();
-		moon       = new Button(27, 227, g.newPixmap("moonButton.png", PixmapFormat.ARGB8888));
-		earth	   = new Button(157, 195, g.newPixmap("earthButton.png", PixmapFormat.ARGB8888));
-		jupiter	   = new Button(306, 143, g.newPixmap("jupiterButton.png", PixmapFormat.ARGB8888));
-		sun        = new Button(494, 33, g.newPixmap("sunButton.png", PixmapFormat.ARGB8888));
+		moon       = new Button(27, 253, g.newPixmap("moonButton.png", PixmapFormat.ARGB8888));
+		earth	   = new Button(157, 285, g.newPixmap("earthButton.png", PixmapFormat.ARGB8888));
+		jupiter	   = new Button(306, 337, g.newPixmap("jupiterButton.png", PixmapFormat.ARGB8888));
+		sun        = new Button(494, 447, g.newPixmap("sunButton.png", PixmapFormat.ARGB8888));
 		
 		background = g.newPixmap("planetSelectBackground.png", PixmapFormat.ARGB8888);
 	}
@@ -51,14 +51,14 @@ public class PlanetSelectScreen extends Screen {
 	@Override
 	public void present(float deltaTime) {
 		Graphics g = game.getGraphics();
-		g.drawPixmap(background, 0, 0);
+		g.drawPixmap(background, 0, g.getHeight());
 		
 		moon.draw(g);
-		if(levelScores[0][levelScores[0].length - 1] >= POINT_THRESHOLD)
+		if(levelScores[0][levelScores[0].length - 1] >= Constants.POINT_THRESHOLD)
 			earth.draw(g);
-		if(levelScores[1][levelScores[1].length - 1] >= POINT_THRESHOLD)
+		if(levelScores[1][levelScores[1].length - 1] >= Constants.POINT_THRESHOLD)
 			jupiter.draw(g);
-		if(levelScores[2][levelScores[2].length - 1] >= POINT_THRESHOLD)
+		if(levelScores[2][levelScores[2].length - 1] >= Constants.POINT_THRESHOLD)
 			sun.draw(g);
 
 	}
@@ -107,13 +107,13 @@ public class PlanetSelectScreen extends Screen {
 	private void checkForButtonPress(int x, int y) {
 		
 		if(moon.isInsideButton(x, y))
-			game.setScreen(new LevelSelectScreen(game, Planet.MOON));
-		else if (earth.isInsideButton(x, y) && levelScores[0][levelScores[0].length - 1] >= POINT_THRESHOLD)
-			game.setScreen(new LevelSelectScreen(game, Planet.EARTH));
-		else if (jupiter.isInsideButton(x, y) && levelScores[1][levelScores[1].length - 1] >= POINT_THRESHOLD)
-			game.setScreen(new LevelSelectScreen(game, Planet.JUPITER));
-		else if (sun.isInsideButton(x, y) && levelScores[2][levelScores[2].length - 1] >= POINT_THRESHOLD)
-			game.setScreen(new LevelSelectScreen(game, Planet.SUN));
+			game.setScreen(new LevelSelectScreen(game, Planet.MOON, levelScores[0]));
+		else if (earth.isInsideButton(x, y) && levelScores[0][levelScores[0].length - 1] >= Constants.POINT_THRESHOLD)
+			game.setScreen(new LevelSelectScreen(game, Planet.EARTH, levelScores[1]));
+		else if (jupiter.isInsideButton(x, y) && levelScores[1][levelScores[1].length - 1] >= Constants.POINT_THRESHOLD)
+			game.setScreen(new LevelSelectScreen(game, Planet.JUPITER, levelScores[2]));
+		else if (sun.isInsideButton(x, y) && levelScores[2][levelScores[2].length - 1] >= Constants.POINT_THRESHOLD)
+			game.setScreen(new LevelSelectScreen(game, Planet.SUN, levelScores[3]));
 		
 	}
 

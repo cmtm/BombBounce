@@ -14,10 +14,10 @@ import android.content.SharedPreferences;
 public class MainMenuScreen extends Screen {
 	//button placement constants
 	private static final int X_POS = 436;
-	private static final int Y_POS = 26;
+	private static final int Y_POS = 155;
 	private static final int Y_OFFSET = 75;
 	private static final int SPEAKER_X = 680;
-	private static final int SPEAKER_Y = 403;
+	private static final int SPEAKER_Y = 77;
 
 
 	
@@ -30,11 +30,11 @@ public class MainMenuScreen extends Screen {
 	public MainMenuScreen(Game game) {
 		super(game);
 		Graphics g = game.getGraphics();
-		play       = new Button(X_POS, Y_POS + Y_OFFSET * 0, g.newPixmap("playArmor.png", PixmapFormat.ARGB8888));
-		options	   = new Button(X_POS, Y_POS + Y_OFFSET * 1, g.newPixmap("optionsArmor.png", PixmapFormat.ARGB8888));
+		play       = new Button(X_POS, Y_POS + Y_OFFSET * 4, g.newPixmap("playArmor.png", PixmapFormat.ARGB8888));
+		options	   = new Button(X_POS, Y_POS + Y_OFFSET * 3, g.newPixmap("optionsArmor.png", PixmapFormat.ARGB8888));
 		science	   = new Button(X_POS, Y_POS + Y_OFFSET * 2, g.newPixmap("scienceArmor.png", PixmapFormat.ARGB8888));
-		cinematics = new Button(X_POS, Y_POS + Y_OFFSET * 3, g.newPixmap("cinematicsArmor.png", PixmapFormat.ARGB8888));
-		exit	   = new Button(X_POS, Y_POS + Y_OFFSET * 4, g.newPixmap("exitArmor.png", PixmapFormat.ARGB8888));
+		cinematics = new Button(X_POS, Y_POS + Y_OFFSET * 1, g.newPixmap("cinematicsArmor.png", PixmapFormat.ARGB8888));
+		exit	   = new Button(X_POS, Y_POS + Y_OFFSET * 0, g.newPixmap("exitArmor.png", PixmapFormat.ARGB8888));
 		
 		speaker = new Button(SPEAKER_X, SPEAKER_Y, g.newPixmap("speaker.png", PixmapFormat.ARGB8888));
 		
@@ -61,7 +61,7 @@ public class MainMenuScreen extends Screen {
 	public void present(float deltaTime) {
 		
 		Graphics g = game.getGraphics();
-		g.drawPixmap(background, 0, 0);
+		g.drawPixmap(background, 0, g.getHeight());
 		
 		play.draw(g);
 		options.draw(g);

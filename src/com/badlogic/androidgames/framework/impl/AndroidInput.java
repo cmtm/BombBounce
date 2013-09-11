@@ -13,17 +13,16 @@ public class AndroidInput implements Input {
     KeyboardHandler keyHandler;
     TouchHandler touchHandler;
 
-    public AndroidInput(Context context, View view, float scaleX, float scaleY) {
+    public AndroidInput(Context context, View view, float scaleX, float scaleY, int frameBufferHeight) {
         accelHandler = new AccelerometerHandler(context);
-        keyHandler = new KeyboardHandler(view);               
-	/*
-        if (Integer.parseInt(VERSION.SDK) < 5) 
+        keyHandler = new KeyboardHandler(view);             
+        /*
+        if(Integer.parseInt(VERSION.SDK) < 5)
             touchHandler = new SingleTouchHandler(view, scaleX, scaleY);
         else
-            touchHandler = new MultiTouchHandler(view, scaleX, scaleY);        
-	*/
-        touchHandler = new MultiTouchHandler(view, scaleX, scaleY);        
-
+            touchHandler = new MultiTouchHandler(view, scaleX, scaleY);
+        */
+        touchHandler = new SingleTouchHandler(view, scaleX, scaleY, frameBufferHeight);
     }
 
     public boolean isKeyPressed(int keyCode) {

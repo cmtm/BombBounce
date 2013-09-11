@@ -37,7 +37,7 @@ public abstract class AndroidGame extends Activity implements Game {
 
         boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         int frameBufferWidth = isLandscape ? 800 : 480;
-        int frameBufferHeight = isLandscape ? 480: 800;
+        int frameBufferHeight = isLandscape ? 480 : 800;
         Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth,
                 frameBufferHeight, Config.RGB_565);
         
@@ -50,7 +50,7 @@ public abstract class AndroidGame extends Activity implements Game {
         graphics = new AndroidGraphics(getAssets(), frameBuffer);
         fileIO = new AndroidFileIO(this);
         audio = new AndroidAudio(this);
-        input = new AndroidInput(this, renderView, scaleX, scaleY);
+        input = new AndroidInput(this, renderView, scaleX, scaleY, frameBufferHeight);
         screen = getStartScreen();
         setContentView(renderView);
         

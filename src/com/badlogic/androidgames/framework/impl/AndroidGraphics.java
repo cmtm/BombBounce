@@ -80,18 +80,18 @@ public class AndroidGraphics implements Graphics {
 
     public void drawPixel(int x, int y, int color) {
         paint.setColor(color);
-        canvas.drawPoint(x, y, paint);
+        canvas.drawPoint(x, getHeight() - y, paint);
     }
 
     public void drawLine(int x, int y, int x2, int y2, int color) {
         paint.setColor(color);
-        canvas.drawLine(x, y, x2, y2, paint);
+        canvas.drawLine(x, getHeight() - y, x2, getHeight() - y2, paint);
     }
 
     public void drawRect(int x, int y, int width, int height, int color) {
         paint.setColor(color);
         paint.setStyle(Style.FILL);
-        canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
+        canvas.drawRect(x, getHeight() - y, x + width - 1, getHeight() - y + height - 1, paint);
     }
 
     public void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY,
@@ -102,15 +102,15 @@ public class AndroidGraphics implements Graphics {
         srcRect.bottom = srcY + srcHeight - 1;
 
         dstRect.left = x;
-        dstRect.top = y;
+        dstRect.top = getHeight() - y;
         dstRect.right = x + srcWidth - 1;
-        dstRect.bottom = y + srcHeight - 1;
+        dstRect.bottom = getHeight() - y + srcHeight - 1;
 
         canvas.drawBitmap(((AndroidPixmap) pixmap).bitmap, srcRect, dstRect, null);
     }
 
     public void drawPixmap(Pixmap pixmap, int x, int y) {
-        canvas.drawBitmap(((AndroidPixmap)pixmap).bitmap, x, y, null);
+        canvas.drawBitmap(((AndroidPixmap)pixmap).bitmap, x, getHeight() - y, null);
     }
 
     public int getWidth() {
